@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Você me ama?</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #fff0f5, #ffe4ec);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+  #hearts-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #hearts-bg span {
+    position: absolute;
+    color: #d4537e;
+  }
+  .card {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    max-width: 480px;
+    width: 90%;
+  }
+  .emoji-row {
+    font-size: 42px;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-size: 28px;
+    color: #993556;
+    margin: 0 0 2.5rem;
+  }
+  #answer-area {
+    position: relative;
+    height: 60px;
+  }
+  button {
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 28px;
+    padding: 14px 32px;
+    cursor: pointer;
+    border: none;
+  }
+  #yes-btn {
+    background: #d4537e;
+    color: white;
+  }
+  #yes-btn:hover {
+    background: #c23f6c;
+  }
+  #no-btn {
+    position: absolute;
+    background: transparent;
+    color: #993556;
+    border: 2px solid #d4537e;
+    left: 190px;
+    top: 0;
+    transition: left 0.15s ease, top 0.15s ease;
+  }
+  #result {
+    display: none;
+    font-size: 26px;
+    color: #712b13;
+    font-weight: 700;
+    margin-top: 2rem;
+    animation: pop 0.4s ease;
+  }
+  @keyframes pop {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div id="hearts-bg"></div>
+
+<div class="card">
+  <div class="emoji-row">💗🌹💗</div>
+  <h1 id="question">Você me ama?</h1>
+  <div id="answer-area">
+    <button id="yes-btn">sim</button>
+    <button id="no-btn">não</button>
+  </div>
+  <div id="result"></div>
+</div>
+
+<script>
+  const bg = document.getElementById('hearts-bg');
+  for (let i = 0; i < 25; i++) {
+    const s = document.createElement('span');
+    s.textContent = Math.random() > 0.5 ? '♥' : '🌹';
+    s.style.left = Math.random() * 95 + '%';
+    s.style.top = Math.random() * 95 + '%';
+    s.style.fontSize = (12 + Math.random() * 22) + 'px';
+    s.style.opacity = 0.2 + Math.random() * 0.3;
+    bg.appendChild(s);
+  }
+
+  const noBtn = document.getElementById('no-btn');
+  const yesBtn = document.getElementById('yes-btn');
+  const container = document.getElementById('answer-area');
+  const result = document.getElementById('result');
+  const question = document.getElementById('question');
+
+  function dodge() {
+    const cw = container.clientWidth;
+    const ch = container.clientHeight;
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+    const maxLeft = Math.max(cw - btnW - 4, 4);
+    const maxTop = Math.max(ch - btnH, 0);
+    noBtn.style.left = (Math.random() * maxLeft) + 'px';
+    noBtn.style.top = (Math.random() * maxTop) + 'px';
+  }
+
+  noBtn.addEventListener('mouseenter', dodge);
+  noBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    dodge();
+  });
+  noBtn.addEventListener('touchstart', function (e) {
+    e.preventDefault();
+    dodge();
+  }, { passive: false });
+
+  yesBtn.addEventListener('click', function () {
+    container.style.display = 'none';
+    question.style.display = 'none';
+    result.style.display = 'block';
+    result.textContent = 'EU TAMBÉM TE AMO MEU AMOR';
+  });
+</script>
+
+</body>
+</html>
